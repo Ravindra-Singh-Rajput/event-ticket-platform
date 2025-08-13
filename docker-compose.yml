@@ -1,0 +1,37 @@
+
+
+
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: event_ticket
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: Ravindra@29
+      MYSQL_ROOT_PASSWORD: Ravindra@29
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    ports:
+      - "9090:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+    command:
+      - start-dev
+      - --db=dev-file
+
+volumes:
+  mysql-data:
+    driver: local
+  keycloak-data:
+    driver: local
